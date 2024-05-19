@@ -177,7 +177,66 @@ void Course::statSubmissionByStatus(int projectID, bool status) {
 	}
 }
 
+//void Course::statOverall(Time date) {
+//
+//	const int projectIDWidth = 12;
+//	const int statusWidth = 25;
+//
+//	auto printHorizontalLine = [&](int totalWidth) {
+//		std::cout << '+';
+//		for (int i = 0; i < totalWidth; ++i) {
+//			std::cout << '-';
+//		}
+//		std::cout << '+' << std::endl;
+//		};
+//
+//	int totalWidth = projectIDWidth + (int(projectList.size())* statusWidth) + int(projectList.size()) + 1;
+//
+//	printHorizontalLine(totalWidth);
+//	std::cout << '|'
+//		<< std::left << std::setw(projectIDWidth+1) << "" << '|';
+//
+//	for (int projectID = 1; projectID <= projectList.size(); projectID++) {
+//		std::cout << std::left << std::setw(statusWidth) << (" Project " + std::to_string(projectID)) << '|';
+//	}
+//	std::cout << std::endl;
+//	printHorizontalLine(totalWidth);
+//
+//	for (int i = 0; i < groupList.size(); i++) {
+//		int groupID = groupList[i].getGroupID();
+//		std::cout << '|'
+//			<< std::left << std::setw(projectIDWidth+1) << (" Group " + std::to_string(groupID)) << '|';
+//
+//		for (int projectID = 1; projectID <= projectList.size(); projectID++)
+//		{
+//			std::string status="";
+//			if (projectList[projectID - 1].getDueDate().isOnTime(date) == false)
+//			{
+//				
+//				Submission* submission = findSubmission(projectID, groupID);
+//				if (submission != nullptr) {
+//					status = submission->submissionInfor_overall();
+//				}
+//				else {
+//					if (!findProjectbyID(projectID)->getDueDate().isOnTime(date)) {
+//						status = "not submitted";
+//					}
+//					else {
+//						status = "not yet submitted";
+//					}
+//				}
+//				std::cout << std::left << std::setw(statusWidth) << status << '|';
+//			}
+//			else std::cout << std::left << std::setw(statusWidth) <<status <<'|';
+//		}
+//		std::cout << std::endl;
+//		printHorizontalLine(totalWidth);
+//	}
+//}
+
 void Course::statOverall(Time date) {
+	Time currentTime;
+	currentTime.getCurrentTime();
 
 	const int projectIDWidth = 12;
 	const int statusWidth = 25;
@@ -190,14 +249,20 @@ void Course::statOverall(Time date) {
 		std::cout << '+' << std::endl;
 		};
 
-	int totalWidth = projectIDWidth + (int(projectList.size())* statusWidth) + int(projectList.size()) + 1;
+	int totalWidth = projectIDWidth + (int(projectList.size()) * statusWidth) + int(projectList.size()) + 1;
 
 	printHorizontalLine(totalWidth);
 	std::cout << '|'
-		<< std::left << std::setw(projectIDWidth+1) << "" << '|';
+		<< std::left << std::setw(projectIDWidth + 1) << "" << '|';
 
 	for (int projectID = 1; projectID <= projectList.size(); projectID++) {
 		std::cout << std::left << std::setw(statusWidth) << (" Project " + std::to_string(projectID)) << '|';
+	}
+	std::cout << std::endl;
+	std::cout << '|'
+		<< std::left << std::setw(projectIDWidth + 1) << "" << '|';
+	for (int projectID = 1; projectID <= projectList.size(); projectID++) {
+		std::cout << std::left << std::setw(statusWidth) << (" DL " + projectList[projectID - 1].getDueDate().toString()) << '|';
 	}
 	std::cout << std::endl;
 	printHorizontalLine(totalWidth);
@@ -205,20 +270,20 @@ void Course::statOverall(Time date) {
 	for (int i = 0; i < groupList.size(); i++) {
 		int groupID = groupList[i].getGroupID();
 		std::cout << '|'
-			<< std::left << std::setw(projectIDWidth+1) << (" Group " + std::to_string(groupID)) << '|';
+			<< std::left << std::setw(projectIDWidth + 1) << (" Group " + std::to_string(groupID)) << '|';
 
 		for (int projectID = 1; projectID <= projectList.size(); projectID++)
 		{
-			std::string status="";
+			std::string status = "";
 			if (projectList[projectID - 1].getDueDate().isOnTime(date) == false)
 			{
-				
+
 				Submission* submission = findSubmission(projectID, groupID);
 				if (submission != nullptr) {
 					status = submission->submissionInfor_overall();
 				}
 				else {
-					if (!findProjectbyID(projectID)->getDueDate().isOnTime(date)) {
+					if (!findProjectbyID(projectID)->getDueDate().isOnTime(currentTime)) {
 						status = "not submitted";
 					}
 					else {
@@ -227,7 +292,7 @@ void Course::statOverall(Time date) {
 				}
 				std::cout << std::left << std::setw(statusWidth) << status << '|';
 			}
-			else std::cout << std::left << std::setw(statusWidth) <<status <<'|';
+			else std::cout << std::left << std::setw(statusWidth) << status << '|';
 		}
 		std::cout << std::endl;
 		printHorizontalLine(totalWidth);
