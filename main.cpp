@@ -2,6 +2,7 @@
 #include <conio.h>
 #include"Course.h"
 #include<cctype>
+#include <limits>
 
 using namespace std;
 
@@ -11,8 +12,19 @@ static int student_id_auto_increasement = 1;
 Time currentTime(01, 01, 1990);
 
 
+void getChoice(int&);
+void inputInformation();
+void displayInformation();
+void project_declaration();
+void project_information();
+void submit_project();
+void displaysByProject();
+void displaysByGroup();
+void disPlayByStatus();
+void overrallStat();
 
-void displayLogo() {
+void displayLogo() 
+{
     std::cout << "------------------------------------------------------------------" << std::endl;
     std::cout << "\tPROJECTS SUBMISSION OF GROUPS\t\t";
     std::cout << "Today: " << currentTime.toString() << std::endl;
@@ -27,7 +39,9 @@ void displayMainMenu() {
     std::cout << "4. Statistic\n";
     std::cout << "5. Overall Statistic\n";
     std::cout << "6. Find groups do not complete or submit on time\n";
-    std::cout << "7. Quit\n";
+    std::cout << "7. Save\n";
+    std::cout << "8. Load\n"; 
+    std::cout << "9. Quit\n";
 }
 
 void displaySubMenu1() {
@@ -35,26 +49,12 @@ void displaySubMenu1() {
     std::cout << "Group information:\n";
     std::cout << "1.1 Input information\n";
     std::cout << "1.2 Display information\n";
-    std::cout << "1.3 Save group information\n";
-    std::cout << "1.4 Load group information\n";
-    std::cout << "1.5 Quit\n";
+    std::cout << "1.3 Quit\n";
 }
 
 void Pause() {
     _getch();
 }
-
-void getChoice(int&);
-void inputInformation();
-void displayInformation();
-void project_declaration();
-void project_information();
-void submit_project();
-void displaysByProject();
-void displaysByGroup();
-void disPlayByStatus();
-void overrallStat();
-
 
 int main() {
     currentTime.getCurrentTime();
@@ -91,30 +91,14 @@ int main() {
                         system("pause");
                         break;
                     }
-                    case 3: {
-                        system("cls");
-                        displayLogo();
-                        std::cout << "Save group information\n";
-                        //tuan;
-                        system("pause");
-                        break;
-                    }
-                    case 4: {
-                        system("cls");
-                        displayLogo();
-                        std::cout << "Load group information\n";
-                        //tuan;
-                        system("pause");
-                        break;
-                    }
-                    case 5:
+                    case 3:
                         break;
                     default:
                         std::cout << "Invalid choice. Please try again.\n";
                         system("pause");
                         break;
                     }
-            } while (choice_1 != 5);
+            } while (choice_1 != 3);
             break;
         }
         case 2: {
@@ -160,14 +144,13 @@ int main() {
         }
         case 4: {
             int choice_4 = 0;
-            system("cls");
-            displayLogo();
-            std::cout << "Statistic\n";
-            std::cout << "4.1 Displays a table show the state of submission of a project for groups\n";
-            std::cout << "4.2 Displays a table show the state of submission of all projects  of a group.\n";
-            std::cout << "4.3 Quit\n";
-            
             do {
+                system("cls");
+                displayLogo();
+                std::cout << "Statistic\n";
+                std::cout << "4.1 Displays a table show the state of submission of a project for groups\n";
+                std::cout << "4.2 Displays a table show the state of submission of all projects  of a group.\n";
+                std::cout << "4.3 Quit\n";
                 getChoice(choice_4);
                 switch (choice_4) {
                     case 1: {
@@ -215,7 +198,29 @@ int main() {
         case 7: {
             system("cls");
             displayLogo();
+            std::cout << "Save group information\n";
+            CS_256.saveAllGroupInfor("group.dat");
+            CS_256.saveAllProjectInfor("project.dat");
+            CS_256.saveAllSubmissionInfor("submission.dat");
+            system("pause");
+            break;
+        }
+        case 8: {
+            system("cls");
+            displayLogo();
+            std::cout << "Load group information\n";
+            CS_256.loadAllGroupInfor("group.dat");
+            CS_256.loadAllProjectInfor("project.dat");
+            CS_256.loadAllSubmissionInfor("submission.dat");
+            system("pause");
+            break;
+        }
+        case 9: {
+            system("cls");
+            displayLogo();
             std::cout << "Quitting...\n";
+            exit(0);
+            return 0;
             break; }
         default: {
             std::cout << "Invalid choice. Please try again.\n";
@@ -224,22 +229,26 @@ int main() {
         }
                std::cout << std::endl;
         }
-    } while (choice != 7);
+    } while (choice != 9);
+    
     return 0;
 }
 
 void getChoice(int& choice) {
-    while (true) {
+    while (true) 
+    {
         std::cout << "Enter your choice: ";
         std::cin >> choice;
 
         // Check if the input is a valid integer
-        if (std::cin.fail()) {
+        if (std::cin.fail())
+        {
             std::cin.clear(); // Clear the error flag
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore the rest of the input
             std::cout << "Invalid input. Please enter an integer." << std::endl;
         }
-        else {
+        else 
+        {
             break; // Input is valid, exit the loop
         }
     }
@@ -257,7 +266,17 @@ void inputInformation() {
         CS_256.addNewGroup(i);
         int numstudent;
         std::cout << "How many students in group " << i << "? ";
-        std::cin >> numstudent;
+        while (true) {
+            std::cin >> numstudent;
+            if (std::cin.fail()) {
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Invalid input. Please enter a number:" << std::endl;
+            }
+            else {
+                break;
+            }
+        }
         while (numstudent < 1) {
             std::cout << "Each group has at least one member. Please re-enter data: ";
             std::cin >> numstudent;
@@ -377,6 +396,7 @@ void displaysByGroup() {
 void disPlayByStatus() {
     std::cout << "Enter Status you want to check: ";
     std::string status;
+    std::cin.ignore();
     getline(std::cin, status);
     if (status == "late") {
         for (int projectID = 1; projectID <= CS_256.getNumberOfProjects(); projectID++) {

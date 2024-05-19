@@ -66,11 +66,11 @@ public:
     /**
      * @brief Load the group information from a file.
      */
-    Group loadGroupInfor(std::fstream&);
+    void loadGroupInfor(std::fstream&);
 
     /**
      * @brief Display the group information.
      */
-    void displayGroupInfor() const;
+    void displayGroupInfor();
 };
 #pragma once

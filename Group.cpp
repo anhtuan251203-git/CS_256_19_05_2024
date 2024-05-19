@@ -37,7 +37,7 @@ void Group::addNewStudent(Student* student)
 	
 }
 
-void Group::displayGroupInfor() const {
+void Group::displayGroupInfor() {
 	std::cout << "\nGroup " << groupID << ": \n";
 	for (int i = 0; i < studentList.size(); i++)
 	{
@@ -45,19 +45,29 @@ void Group::displayGroupInfor() const {
 	}
 }
 
-//đá
-//void Group::saveGroupInfor(){}
-//
-//void Group::loadGroupInfor(){}
-//
-
 void Group::saveGroupInfor(std::fstream& outfile)
 {
-	outfile.write(reinterpret_cast<char*>(this), sizeof(Group));
+	outfile.write(reinterpret_cast<char*>(&groupID), sizeof(groupID));
+	size_t listSize = studentList.size();
+	outfile.write(reinterpret_cast<const char*>(&listSize), sizeof(listSize));
+	for (const auto& student : studentList) {
+		outfile.write(reinterpret_cast<const char*>(&student), sizeof(Student));
+	}
 }
 
-//Group Group::loadGroupInfor(std::fstream& infile){
-//	infile.write(reinterpret_cast<char*>(this), sizeof(Group));
-//}
+void Group::loadGroupInfor(std::fstream& infile)
+{
+	infile.read(reinterpret_cast<char*>(&groupID), sizeof(groupID));
+	size_t listSize;
+	infile.read(reinterpret_cast<char*>(&listSize), sizeof(listSize));
+	studentList.resize(listSize);
+	for (auto& student : studentList) 
+	{
+		infile.read(reinterpret_cast<char*>(&student), sizeof(Student));
+	}
+}
+
+
+
 
  

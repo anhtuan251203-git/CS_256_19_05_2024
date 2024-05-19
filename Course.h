@@ -32,6 +32,9 @@ public:
 	int getNumberOfGroups() const;
 	void setNumbeOfGroups(int number_of_groups);
 
+	void getStudenList();
+	void displayStudentList();
+
 	/**
 	* @brief This funtion use for adding new student into studentList
 	*
@@ -155,10 +158,16 @@ public:
 	void statOverall(Time date);
 
 	void saveAllGroupInfor(std::string fileName);
-
 	void loadAllGroupInfor(std::string fileName);
 
+	void saveAllSubmissionInfor(std::string fileName);
+	void loadAllSubmissionInfor(std::string fileName);
 
+	void saveAllProjectInfor(std::string fileName);
+	void loadAllProjectInfor(std::string fileName);
 
+	void displayProjectList();
+	void displayGroupList();
+	void displaySubmissionList();
 };
 

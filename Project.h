@@ -1,5 +1,6 @@
 #include "Time.h"
 #include<string>
+#include<fstream>
 #pragma once
 /**
  * @brief A class representing a project.
@@ -21,6 +22,7 @@ public:
 	 * @param dueDate The deadline of the project.
 	 */
 	Project(int projectID, Time dueDate);
+	Project();
 
 	/**
 	 * @brief Constructor for Project class.
@@ -79,6 +81,12 @@ public:
 	 */
 	std::string toString();
 
+	void saveProjectInfor(std::fstream&);
 
-	
+	/**
+	 * @brief Load the group information from a file.
+	 */
+	void loadProjectInfor(std::fstream&);
+
+	std::string ProjectInfor();
 };

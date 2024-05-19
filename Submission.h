@@ -77,7 +77,15 @@ public:
     void setSubmitDate(Time submitDate);
 
     std::string submissionInfor();
-
+    std::string submissionInforaProject();
+    std::string submissionInforaGroup();
     std::string submissionInfor_overall();
+
+    void saveSubmissionInfor(std::fstream&);
+
+    /**
+     * @brief Load the group information from a file.
+     */
+    void loadSubmissionInfor(std::fstream&);
 
 };

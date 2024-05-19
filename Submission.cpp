@@ -39,12 +39,38 @@ std::string Submission::submissionInfor()
 	std::string status_sub;
 	std::string infor;
 	if (getStatus()) {
-		status_sub = "On time";
+		status_sub = "On time ";
 	}
 	else {
-		status_sub = "late";
+		status_sub = "Late ";
 	}
-	infor = "Project no" + std::to_string(getProjectID()) + " Group " + std::to_string(getGroupID()) + "  Status: "+ status_sub + " Submitted date: " + submitDate.toString();
+	infor = "Project " + std::to_string(getProjectID()) + " Group " + std::to_string(getGroupID()) + " Status: "+ status_sub + "Submitted date: " + submitDate.toString();
+	return infor;
+}
+std::string Submission::submissionInforaProject()
+{
+	std::string status_sub;
+	std::string infor;
+	if (getStatus()) {
+		status_sub = "On time ";
+	}
+	else {
+		status_sub = "Late ";
+	}
+	infor =" Group " + std::to_string(getGroupID()) + "  Status: " + status_sub + "Submitted date: " + submitDate.toString();
+	return infor;
+}
+std::string Submission::submissionInforaGroup()
+{
+	std::string status_sub;
+	std::string infor;
+	if (getStatus()) {
+		status_sub = "On time ";
+	}
+	else {
+		status_sub = "Late ";
+	}
+	infor = "Project " + std::to_string(getProjectID()) + "  Status: " + status_sub + "Submitted date: " + submitDate.toString();
 	return infor;
 }
 
@@ -59,6 +85,22 @@ std::string Submission::submissionInfor_overall()
 		status_sub = "late";
 	}
 	return status_sub;
+}
+
+void Submission::saveSubmissionInfor(std::fstream& outfile)
+{
+	outfile.write(reinterpret_cast<char*>(&projectID), sizeof(projectID));
+	outfile.write(reinterpret_cast<char*>(&groupID), sizeof(groupID));
+	outfile.write(reinterpret_cast<char*>(&submitDate), sizeof(submitDate));
+	outfile.write(reinterpret_cast<char*>(&status), sizeof(status));
+}
+
+void Submission::loadSubmissionInfor(std::fstream& infile)
+{
+	infile.read(reinterpret_cast<char*>(&projectID), sizeof(projectID));
+	infile.read(reinterpret_cast<char*>(&groupID), sizeof(groupID));
+	infile.read(reinterpret_cast<char*>(&submitDate), sizeof(submitDate));
+	infile.read(reinterpret_cast<char*>(&status), sizeof(status));
 }
 
 

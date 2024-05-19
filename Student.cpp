@@ -31,5 +31,4 @@ std::string Student::toString() {
 		+ "Group: " + std::to_string(getGroupID()) + '\n'
 		+ "isInGroup: " + std::to_string(getGroupStatus());
 	return studentInfor;
-		  
 }
